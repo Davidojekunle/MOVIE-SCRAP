@@ -1,5 +1,5 @@
 from sqlmodel import Field, SQLModel
-from db import create_db_and_tables
+from .db import create_db_and_tables
 
 class International(SQLModel, table=True):
     id : int | None = Field(default=None, primary_key=True)

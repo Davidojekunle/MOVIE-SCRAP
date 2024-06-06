@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
-from engine import engine
-from models.series import Series
+from .db import engine
+from .model import Series
 
 def add_series(title, date, season, link, country, image, rating):
     try:
@@ -15,14 +15,12 @@ def add_series(title, date, season, link, country, image, rating):
 def get_series():
     with Session(engine) as session:
         series = select(Series)
-        results = session.exec(series)
-        for result in results:
-            print(result)
-            return result
-        return 'No results'
+        results = session.exec(series).all()
+        return results
+
     
 
-def update_series(id,title=None, date=None, season=None, link=None, country=None, image=None, rating=None ):
+def update_series(id,title=None, date=None, season=None, link=None, country=None, image=None, rating=None):
     try:
         with Session(engine) as session:
             series = session.get(Series, id)
@@ -41,6 +39,7 @@ def update_series(id,title=None, date=None, season=None, link=None, country=None
                     series.image = image
                 elif rating is not None:
                     series.rating = rating
+            
                 else:
                     return 'Field is not found'
                 session.commit()

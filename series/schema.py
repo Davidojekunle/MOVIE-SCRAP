@@ -8,3 +8,4 @@ class Series(BaseModel):
     country : str
     image: str
     rating: str
+  
